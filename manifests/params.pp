@@ -17,9 +17,9 @@
 # Copyright 2015 Paul Badcock, unless otherwise noted.
 #
 class splunkuf::params {
-  $targeturi = 'spunk.tld:8089'
-
-  $mgmthostport = undef
+  $targeturi      = 'spunk.tld:8089'
+  $package_ensure = installed
+  $mgmthostport   = undef
 
   case $::osfamily {
     'RedHat': {

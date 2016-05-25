@@ -23,13 +23,18 @@
 # Copyright 2015 Paul Badcock, unless otherwise noted.
 #
 class splunkuf (
-  $targeturi    = $::splunkuf::params::targeturi,
-  $systemd      = $::splunkuf::params::systemd,
-  $mgmthostport = $::splunkuf::params::mgmthostport,
+  $package_source,
+  $package_provider,
+  $package_ensure   = $::splunkuf::params::package_ensure,
+  $targeturi        = $::splunkuf::params::targeturi,
+  $systemd          = $::splunkuf::params::systemd,
+  $mgmthostport     = $::splunkuf::params::mgmthostport,
 ) inherits splunkuf::params {
 
-  package {'splunkforwarder':
-    ensure => latest,
+  package { 'splunkforwarder':
+    ensure   => $package_ensure,
+    provider => $package_provider,
+    source   => $package_source,
   }
 
   case $systemd {
