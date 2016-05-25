@@ -23,15 +23,19 @@
 # Copyright 2015 Paul Badcock, unless otherwise noted.
 #
 class splunkuf (
+
   $package_source,
-  $tcpout_server_ip,
-  $tcpout_server_port,
+
+  $forwarders = { },
+
+  $splunk_home          = $::splunkuf::params::splunk_home,
   $package_provider     = $::splunkuf::params::package_provider,
   $package_ensure       = $::splunkuf::params::package_ensure,
   $tcpout_default_group = $::splunkuf::params::tcpout_default_group,
   $targeturi            = $::splunkuf::params::targeturi,
   $systemd              = $::splunkuf::params::systemd,
   $mgmthostport         = $::splunkuf::params::mgmthostport,
+
 ) inherits splunkuf::params {
 
   package { 'splunkforwarder':
@@ -68,15 +72,6 @@ class splunkuf (
     require => Package['splunkforwarder'],
   }
 
-  file {'/opt/splunkforwarder/etc/system/local/output.conf':
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0644',
-    content => template('splunkuf/output.conf.erb'),
-    notify  => Service['splunkforwarder'],
-    require => Package['splunkforwarder'],
-  }
-
   if $mgmthostport != undef {
     file {'/opt/splunkforwarder/etc/system/local/web.conf':
       owner   => 'root',
@@ -91,5 +86,12 @@ class splunkuf (
   service {'splunkforwarder':
     ensure => 'running',
     enable => true,
+  }
+
+  each($forwarders) |$index, $value| {
+    splunkuf::forward {
+      $index:
+        * => $value,
+    }
   }
 }

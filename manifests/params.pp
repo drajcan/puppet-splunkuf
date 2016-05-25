@@ -18,7 +18,8 @@
 #
 class splunkuf::params {
   $targeturi            = 'spunk.tld:8089'
-  $package_provider     = 'dppkg'
+  $package_provider     = 'dpkg'
+  $splunk_home          = '/opt/splunkforwarder'
   $package_ensure       = installed
   $tcpout_default_group = 'default_group'
   $mgmthostport         = undef
