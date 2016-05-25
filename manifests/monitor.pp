@@ -24,7 +24,7 @@ define splunkuf::monitor (
     require => Package['splunkforwarder'],
   }->
 
-  file { "${splunk_home}/${log_path}":
+  file { "${splunk_home}/monitors/${log_path}":
     ensure => 'present',
   }
 

@@ -25,7 +25,7 @@ define splunkuf::forward (
     require => Package['splunkforwarder'],
   }->
 
-  file { "${splunk_home}/${forward_server}":
+  file { "${splunk_home}/forwarders/${forward_server}":
     ensure => 'present',
   }
 
