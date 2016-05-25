@@ -17,7 +17,8 @@ define splunkuf::monitor (
   exec { "${splunk_home}/bin/splunk add monitor ${log_path} -index main -sourcetype %app% -auth ${splunk_user}:${splunk_password}":
     path    => ["${splunk_home}/bin", '/bin', '/sbin', '/usr/bin', '/usr/sbin'],
     creates => "${splunk_home}/monitors/${name}",
-    require => Package['splunkforwarder']
+    notify  => Service['splunkforwarder'],
+    require => Package['splunkforwarder'],
   }->
 
   file { "${splunk_home}/monitors/${name}":
