@@ -2,6 +2,7 @@
 defaultGroup = <%= @tcpout_default_group %>
 
 [tcpout:<%= @tcpout_default_group %>]
-server = <%= @tcpout_server_ip %>:<%= @tcpout_server_port %>
+disabled = false
+server   = <%= @tcpout_server_ip %>:<%= @tcpout_server_port %>
 
 [tcpout-server://<%= @tcpout_server_ip %>:<%= @tcpout_server_port %>]
