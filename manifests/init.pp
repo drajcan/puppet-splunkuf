@@ -24,11 +24,14 @@
 #
 class splunkuf (
   $package_source,
-  $package_provider,
-  $package_ensure   = $::splunkuf::params::package_ensure,
-  $targeturi        = $::splunkuf::params::targeturi,
-  $systemd          = $::splunkuf::params::systemd,
-  $mgmthostport     = $::splunkuf::params::mgmthostport,
+  $tcpout_server_ip,
+  $tcpout_server_port,
+  $package_provider     = $::splunkuf::params::package_provider,
+  $package_ensure       = $::splunkuf::params::package_ensure,
+  $tcpout_default_group = $::splunkuf::params::tcpout_default_group,
+  $targeturi            = $::splunkuf::params::targeturi,
+  $systemd              = $::splunkuf::params::systemd,
+  $mgmthostport         = $::splunkuf::params::mgmthostport,
 ) inherits splunkuf::params {
 
   package { 'splunkforwarder':
@@ -61,6 +64,15 @@ class splunkuf (
     group   => 'root',
     mode    => '0644',
     content => template('splunkuf/deploymentclient.conf.erb'),
+    notify  => Service['splunkforwarder'],
+    require => Package['splunkforwarder'],
+  }
+
+  file {'/opt/splunkforwarder/etc/system/local/output.conf':
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    content => template('splunkuf/output.conf.erb'),
     notify  => Service['splunkforwarder'],
     require => Package['splunkforwarder'],
   }
