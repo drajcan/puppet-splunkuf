@@ -13,6 +13,9 @@ define splunkuf::forward (
     path    => ["${splunk_home}/bin", '/bin', '/sbin', '/usr/bin', '/usr/sbin'],
     creates => "${splunk_home}/${forward_server}",
     require => Package['splunkforwarder'],
+  }->
+  file { "${splunk_home}/${forward_server}":
+    ensure => 'present',
   }
 
 }
