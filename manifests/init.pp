@@ -41,10 +41,24 @@ class splunkuf (
 
 ) inherits splunkuf::params {
 
+  File {
+    owner => 'splunk',
+    group => 'splunk',
+    mode  => '0644',
+  }
+
   package { 'splunkforwarder':
     ensure   => $package_ensure,
     provider => $package_provider,
     source   => $package_source,
+  }->
+
+  file { "${splunk_home}/forwarders":
+    ensure => 'directory',
+  }->
+
+  file { "${splunk_home}/monitors":
+    ensure => 'directory',
   }
 
   case $systemd {
