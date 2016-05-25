@@ -9,10 +9,9 @@ define splunkuf::forward (
 
 ){
 
-  exec { "${forward_server}:${forward_port}":
-    command => "${splunk_home}/bin/splunk add forward-server ${forward_server}:${forward_port} -auth ${splunk_user}:${splunk_password}",
-    onlyif  => "${splunk_home}/bin/splunk add forward-server ${forward_server}:${forward_port} -auth ${splunk_user}:${splunk_password}",
+  exec { "${splunk_home}/bin/splunk add forward-server ${forward_server}:${forward_port} -auth ${splunk_user}:${splunk_password}":
     path    => ["${splunk_home}/bin", '/bin', '/sbin', '/usr/bin', '/usr/sbin'],
+    creates => "${splunk_home}/${forward_server}",
     require => Package['splunkforwarder'],
   }
 
