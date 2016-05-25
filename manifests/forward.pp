@@ -22,7 +22,8 @@ define splunkuf::forward (
   }->
 
   file { "${splunk_home}/forwarders/${forward_server}":
-    ensure => 'present',
+    ensure  => 'present',
+    require => File["${splunk_home}/forwarders"],
   }
 
 }

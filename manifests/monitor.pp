@@ -17,11 +17,12 @@ define splunkuf::monitor (
   exec { "${splunk_home}/bin/splunk add monitor ${log_path} -index main -sourcetype %app% -auth ${splunk_user}:${splunk_password}":
     path    => ["${splunk_home}/bin", '/bin', '/sbin', '/usr/bin', '/usr/sbin'],
     creates => "${splunk_home}/monitors${log_path}",
-    require => Package['splunkforwarder'],
+    require => Package['splunkforwarder']
   }->
 
   file { "${splunk_home}/monitors${log_path}":
     ensure => 'present',
+    require => File["${splunk_home}/monitors"],
   }
 
 }
