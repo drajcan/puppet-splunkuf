@@ -1,7 +1,6 @@
-define splunkuf::forward (
+define splunkuf::monitor (
 
-  $forward_server = undef,
-  $forward_port   = undef,
+  $log_path,
 
   $splunk_user     = 'admin',
   $splunk_password = 'changeme',
@@ -15,17 +14,17 @@ define splunkuf::forward (
     mode  => '0644',
   }
 
-  file {"${splunk_home}/forwarders/":
+  file {"${splunk_home}/monitors/":
     ensure => 'directory',
   }->
 
-  exec { "${splunk_home}/bin/splunk add forward-server ${forward_server}:${forward_port} -auth ${splunk_user}:${splunk_password}":
+  exec { "${splunk_home}/bin/splunk add monitor ${log_path} -index main -sourcetype %app%":
     path    => ["${splunk_home}/bin", '/bin', '/sbin', '/usr/bin', '/usr/sbin'],
-    creates => "${splunk_home}/${forward_server}",
+    creates => "${splunk_home}/monitors/${log_path}",
     require => Package['splunkforwarder'],
   }->
 
-  file { "${splunk_home}/${forward_server}":
+  file { "${splunk_home}/${log_path}":
     ensure => 'present',
   }
 

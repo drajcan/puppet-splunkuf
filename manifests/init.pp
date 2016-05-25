@@ -27,6 +27,7 @@ class splunkuf (
   $package_source,
 
   $forwarders = { },
+  $monitors   = { },
 
   $splunk_home          = $::splunkuf::params::splunk_home,
   $package_provider     = $::splunkuf::params::package_provider,
@@ -35,6 +36,8 @@ class splunkuf (
   $targeturi            = $::splunkuf::params::targeturi,
   $systemd              = $::splunkuf::params::systemd,
   $mgmthostport         = $::splunkuf::params::mgmthostport,
+
+
 
 ) inherits splunkuf::params {
 
@@ -94,4 +97,12 @@ class splunkuf (
         * => $value,
     }
   }
+
+  each($monitors) |$index, $value| {
+    splunkuf::monitor {
+      $index:
+        * => $value,
+  }
+}
+
 }
