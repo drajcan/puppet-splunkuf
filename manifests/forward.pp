@@ -15,10 +15,6 @@ define splunkuf::forward (
     mode  => '0644',
   }
 
-  file {"${splunk_home}/forwarders/":
-    ensure => 'directory',
-  }->
-
   exec { "${splunk_home}/bin/splunk add forward-server ${forward_server}:${forward_port} -auth ${splunk_user}:${splunk_password}":
     path    => ["${splunk_home}/bin", '/bin', '/sbin', '/usr/bin', '/usr/sbin'],
     creates => "${splunk_home}/forwarders/${forward_server}",
