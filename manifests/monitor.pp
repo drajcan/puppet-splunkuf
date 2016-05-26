@@ -8,6 +8,8 @@ define splunkuf::monitor (
 
 ){
 
+  require splunkuf
+
   File {
     owner => 'splunk',
     group => 'splunk',

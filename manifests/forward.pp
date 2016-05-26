@@ -9,6 +9,8 @@ define splunkuf::forward (
 
 ){
 
+  require splunkuf
+
   File {
     owner => 'splunk',
     group => 'splunk',
