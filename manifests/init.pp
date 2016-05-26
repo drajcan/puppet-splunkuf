@@ -100,6 +100,10 @@ class splunkuf (
   service {'splunkforwarder':
     ensure => 'running',
     enable => true,
+    before => [
+      Define['splunkuf::forward'],
+      Define['splunkuf::monitor'],
+    ],
   }
 
 }
