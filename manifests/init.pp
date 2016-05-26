@@ -26,9 +26,6 @@ class splunkuf (
 
   $package_source,
 
-  $forwarders = { },
-  $monitors   = { },
-
   $splunk_home          = $::splunkuf::params::splunk_home,
   $package_provider     = $::splunkuf::params::package_provider,
   $package_ensure       = $::splunkuf::params::package_ensure,
@@ -104,19 +101,5 @@ class splunkuf (
     ensure => 'running',
     enable => true,
   }
-
-  each($forwarders) |$index, $value| {
-    splunkuf::forward {
-      $index:
-        * => $value,
-    }
-  }
-
-  each($monitors) |$index, $value| {
-    splunkuf::monitor {
-      $index:
-        * => $value,
-  }
-}
 
 }
