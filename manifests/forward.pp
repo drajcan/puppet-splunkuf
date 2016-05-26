@@ -9,8 +9,6 @@ define splunkuf::forward (
 
 ){
 
-  require splunkuf
-
   File {
     owner => 'splunk',
     group => 'splunk',
@@ -21,7 +19,7 @@ define splunkuf::forward (
     path    => ["${splunk_home}/bin", '/bin', '/sbin', '/usr/bin', '/usr/sbin'],
     creates => "${splunk_home}/forwarders/${name}",
     notify  => Service['splunkforwarder'],
-    require => Package['splunkforwarder'],
+    require => Class['splunkuf'],
   }->
 
   file { "${splunk_home}/forwarders/${name}":

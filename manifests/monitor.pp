@@ -20,7 +20,7 @@ define splunkuf::monitor (
     path    => ["${splunk_home}/bin", '/bin', '/sbin', '/usr/bin', '/usr/sbin'],
     creates => "${splunk_home}/monitors/${name}",
     notify  => Service['splunkforwarder'],
-    require => Package['splunkforwarder'],
+    require => Class['splunkuf'],
   }->
 
   file { "${splunk_home}/monitors/${name}":
